@@ -1,0 +1,461 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MAURIWIKI 🇲🇷</title>
+
+<style>
+*{box-sizing:border-box}
+body{
+margin:0;
+font-family:Arial,sans-serif;
+background:#f4f6f8;
+color:#17202a
+}
+header{
+background:linear-gradient(135deg,#007a3d,#008f47);
+color:white;
+padding:25px 18px 45px;
+text-align:center;
+border-bottom-left-radius:30px;
+border-bottom-right-radius:30px
+}
+.logo{
+font-size:35px;
+font-weight:900;
+letter-spacing:1px
+}
+.subtitle{
+opacity:.9;
+margin-top:8px
+}
+.search{
+max-width:700px;
+margin:25px auto 0;
+display:flex;
+background:white;
+padding:7px;
+border-radius:18px;
+box-shadow:0 10px 30px #0002
+}
+.search input{
+flex:1;
+border:0;
+outline:0;
+padding:15px;
+font-size:16px;
+direction:rtl
+}
+.search button{
+border:0;
+background:#f5c400;
+padding:0 22px;
+border-radius:13px;
+font-weight:bold;
+cursor:pointer
+}
+.container{
+max-width:1100px;
+margin:auto;
+padding:25px 15px
+}
+.section-title{
+font-size:23px;
+margin:10px 0 18px
+}
+.categories{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(150px,1fr));
+gap:12px
+}
+.category{
+background:white;
+padding:22px;
+border-radius:18px;
+box-shadow:0 5px 18px #0000000d;
+cursor:pointer;
+transition:.2s
+}
+.category:hover{
+transform:translateY(-4px)
+}
+.icon{
+font-size:30px
+}
+.category b{
+display:block;
+margin-top:10px
+}
+.results{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+gap:15px;
+margin-top:20px
+}
+.card{
+background:white;
+padding:20px;
+border-radius:20px;
+box-shadow:0 5px 18px #0000000d
+}
+.card h3{
+margin-top:0
+}
+.tag{
+display:inline-block;
+background:#e8f5ee;
+color:#007a3d;
+padding:5px 9px;
+border-radius:10px;
+font-size:12px
+}
+.open{
+margin-top:15px;
+width:100%;
+padding:12px;
+border:0;
+border-radius:12px;
+background:#007a3d;
+color:white;
+cursor:pointer
+}
+.profile{
+display:none;
+background:white;
+border-radius:25px;
+padding:25px;
+box-shadow:0 8px 30px #0001;
+margin-top:20px
+}
+.profile-top{
+display:flex;
+gap:20px;
+align-items:center
+}
+.avatar{
+width:100px;
+height:100px;
+border-radius:50%;
+background:linear-gradient(135deg,#007a3d,#f5c400);
+display:flex;
+align-items:center;
+justify-content:center;
+font-size:42px
+}
+.back{
+border:0;
+background:#eee;
+padding:10px 16px;
+border-radius:12px;
+cursor:pointer;
+margin-bottom:20px
+}
+.info{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(180px,1fr));
+gap:10px;
+margin-top:25px
+}
+.info div{
+background:#f5f7f8;
+padding:15px;
+border-radius:14px
+}
+.timeline{
+margin-top:25px;
+border-right:3px solid #007a3d;
+padding-right:18px
+}
+.event{
+margin-bottom:18px
+}
+.event strong{
+color:#007a3d
+}
+footer{
+text-align:center;
+padding:35px 15px;
+color:#777
+}
+@media(max-width:600px){
+.logo{font-size:28px}
+.profile-top{flex-direction:column;text-align:center}
+}
+</style>
+</head>
+
+<body>
+
+<header>
+<div class="logo">🇲🇷 MAURIWIKI</div>
+<div class="subtitle">الموسوعة الموريتانية المفتوحة</div>
+
+<div class="search">
+<input id="searchInput" placeholder="ابحث عن شخص، مدينة، مؤسسة أو حدث...">
+<button onclick="search()">بحث</button>
+</div>
+</header>
+
+<main class="container">
+
+<div id="home">
+
+<h2 class="section-title">استكشف موريتانيا</h2>
+
+<div class="categories">
+
+<div class="category" onclick="quickSearch('شخصيات')">
+<div class="icon">👤</div>
+<b>الشخصيات</b>
+</div>
+
+<div class="category" onclick="quickSearch('مدن')">
+<div class="icon">🏙️</div>
+<b>المدن والولايات</b>
+</div>
+
+<div class="category" onclick="quickSearch('مؤسسات')">
+<div class="icon">🏛️</div>
+<b>المؤسسات</b>
+</div>
+
+<div class="category" onclick="quickSearch('تاريخ')">
+<div class="icon">📜</div>
+<b>التاريخ والأحداث</b>
+</div>
+
+<div class="category" onclick="quickSearch('أماكن')">
+<div class="icon">📍</div>
+<b>الأماكن والمعالم</b>
+</div>
+
+<div class="category" onclick="quickSearch('علماء')">
+<div class="icon">🎓</div>
+<b>العلماء والأدباء</b>
+</div>
+
+</div>
+
+<h2 class="section-title" style="margin-top:35px">شخصيات نموذجية</h2>
+
+<div class="results" id="results"></div>
+
+</div>
+
+<div class="profile" id="profile"></div>
+
+</main>
+
+<footer>
+© 2026 MAURIWIKI 🇲🇷
+<br>
+<strong>MOUHAMEDOU MOHAMED LEMIN CHEKHNA SIDIABDOULLAH</strong>
+</footer>
+
+<script>
+
+const people=[
+
+{
+name:"محمد ولد الغزواني",
+type:"سياسي",
+birth:"1956",
+place:"بومديد، موريتانيا",
+about:"رئيس موريتانيا وضابط عسكري سابق.",
+events:[
+["1956","الميلاد"],
+["1970s","بداية المسار العسكري"],
+["2019","تولى رئاسة موريتانيا"]
+]
+},
+
+{
+name:"المختار ولد داداه",
+type:"سياسي",
+birth:"1924",
+place:"بوتلميت، موريتانيا",
+about:"أول رئيس لموريتانيا بعد الاستقلال.",
+events:[
+["1924","الميلاد"],
+["1960","استقلال موريتانيا"],
+["1960","تولى رئاسة الجمهورية"]
+]
+},
+
+{
+name:"أحمدو ولد عبد الله",
+type:"دبلوماسي",
+birth:"1949",
+place:"موريتانيا",
+about:"دبلوماسي ومسؤول موريتاني.",
+events:[
+["1949","الميلاد"],
+["1980s","بدأ مسيرته الدبلوماسية"],
+["2000s","تولى مناصب دولية"]
+]
+}
+
+];
+
+function render(list=people){
+
+const box=document.getElementById("results");
+
+box.innerHTML=list.map((p,i)=>`
+
+<div class="card">
+
+<span class="tag">${p.type}</span>
+
+<h3>${p.name}</h3>
+
+<p>${p.about}</p>
+
+<button class="open" onclick="openProfile(${i})">
+عرض الملف
+</button>
+
+</div>
+
+`).join("");
+
+}
+
+function search(){
+
+const q=document.getElementById("searchInput").value.trim();
+
+if(!q){
+render();
+return;
+}
+
+const result=people.filter(p=>
+p.name.includes(q) ||
+p.type.includes(q) ||
+p.place.includes(q)
+);
+
+if(result.length){
+render(result);
+}else{
+
+document.getElementById("results").innerHTML=`
+<div class="card">
+<h3>لم نجد نتيجة</h3>
+<p>لم تتم إضافة هذه الشخصية إلى قاعدة البيانات بعد.</p>
+</div>
+`;
+
+}
+
+}
+
+function quickSearch(type){
+
+document.getElementById("searchInput").value=type;
+
+if(type==="شخصيات" || type==="علماء"){
+render();
+}else{
+
+document.getElementById("results").innerHTML=`
+<div class="card">
+<h3>${type}</h3>
+<p>هذا القسم جاهز لإضافة آلاف الصفحات لاحقًا.</p>
+</div>
+`;
+
+}
+
+}
+
+function openProfile(index){
+
+const p=people[index];
+
+document.getElementById("home").style.display="none";
+
+const profile=document.getElementById("profile");
+
+profile.style.display="block";
+
+profile.innerHTML=`
+
+<button class="back" onclick="closeProfile()">← العودة</button>
+
+<div class="profile-top">
+
+<div class="avatar">👤</div>
+
+<div>
+<h1>${p.name}</h1>
+<span class="tag">${p.type}</span>
+</div>
+
+</div>
+
+<div class="info">
+
+<div>
+<strong>📅 الميلاد</strong>
+<br>${p.birth}
+</div>
+
+<div>
+<strong>📍 مكان الميلاد</strong>
+<br>${p.place}
+</div>
+
+<div>
+<strong>🏷️ التصنيف</strong>
+<br>${p.type}
+</div>
+
+</div>
+
+<h2>نبذة</h2>
+
+<p>${p.about}</p>
+
+<h2>🗓️ الخط الزمني</h2>
+
+<div class="timeline">
+
+${p.events.map(e=>`
+
+<div class="event">
+<strong>${e[0]}</strong>
+<br>
+${e[1]}
+</div>
+
+`).join("")}
+
+</div>
+
+<h2>🔗 المصادر</h2>
+
+<p>ستتم إضافة المصادر والمراجع الموثوقة لكل معلومة عند بناء قاعدة البيانات.</p>
+
+`;
+
+window.scrollTo({top:0,behavior:"smooth"});
+
+}
+
+function closeProfile(){
+
+document.getElementById("profile").style.display="none";
+
+document.getElementById("home").style.display="block";
+
+}
+
+render();
+
+</script>
+
+</body>
+</html>
